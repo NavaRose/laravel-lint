@@ -1,2 +1,2 @@
 # laravel-lint
-Lint tool your laravel project.
+Check coding convention, coding consistency for your laravel project.
