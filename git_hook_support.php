@@ -1,7 +1,7 @@
 <?php
-require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/../../../vendor/autoload.php';
 
-const LANGUAGE_DIR = __DIR__ . '/../../resources/lang/';
+const LANGUAGE_DIR = __DIR__ . '/../../../resources/lang/';
 
 $dir = array_diff(scandir(LANGUAGE_DIR . 'en/'), ['..', '.']);
 foreach ($dir as $file) {
