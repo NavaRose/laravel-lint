@@ -215,6 +215,14 @@ fix () {
   fi
 }
 
+hooks() {
+  params1=$1
+
+  if [ $params1 == 'enable' ]; then
+      cp ./vendor/nguyendotrung/laravel-lint/hooks/pre-commit .git/hooks/pre-commit
+  fi
+}
+
 clear_logs () {
   rm -rf ./storage/logs/pre_commit_checking/*
 }
