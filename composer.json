@@ -11,5 +11,10 @@
   ],
   "require": {
     "squizlabs/php_codesniffer": "^3.6"
+  },
+  "scripts": {
+    "post-package-install": [
+      "cp pre-commit.sh /usr/local/bin/amv"
+    ]
   }
 }
