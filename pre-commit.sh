@@ -121,7 +121,7 @@ checking_language () {
     fi
   done
 
-  checking_language_result=$(php -f ./git_hooks/git_hook_support.php)
+  checking_language_result=$(php -f ./vendor/nguyendotrung/laravel-lint/git_hook_support.php)
   if [ "$checking_language_result" != '' ]; then
       echo "\n${RED}[✗] $checking_language_result${RESET_COLOR}"
       error_flag=true
