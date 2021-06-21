@@ -1,6 +1,4 @@
 <?php
-echo __DIR__;
-exit();
 require __DIR__ . '/../vendor/autoload.php';
 
 const LANGUAGE_DIR = __DIR__ . '/../resources/lang/';
