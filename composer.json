@@ -1,0 +1,15 @@
+{
+  "name": "navarose/laravel-lint",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "trungnd",
+      "email": "email@example.com"
+    }
+  ],
+  "require": {
+    "squizlabs/php_codesniffer": "^3.6"
+  }
+}
