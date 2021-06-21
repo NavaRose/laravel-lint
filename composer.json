@@ -1,6 +1,6 @@
 {
-  "name": "navarose/laravel-lint",
-  "description": "description",
+  "name": "nguyendotrung/laravel-lint",
+  "description": "This is a tool for checking a consistency and coding convention of Laravel project",
   "minimum-stability": "stable",
   "license": "proprietary",
   "authors": [
@@ -13,8 +13,5 @@
     "squizlabs/php_codesniffer": "^3.6"
   },
   "scripts": {
-    "post-root-package-install": [
-      "cp pre-commit.sh /usr/local/bin/amv"
-    ]
   }
 }
