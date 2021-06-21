@@ -1,0 +1,25 @@
+{
+    "env": {
+        "browser": true,
+        "commonjs": true,
+        "es2021": true
+    },
+    "extends": [
+        "plugin:vue/essential",
+        "google"
+    ],
+    "parser": "babel-eslint",
+    "parserOptions": {
+        "ecmaVersion": 12
+    },
+    "plugins": [
+        "vue", "@babel"
+    ],
+    "rules": {
+        "max-len": ["error", { "code": 120 }],
+        "no-invalid-this": 0,
+        "require-jsdoc": 0,
+        "comma-dangle": 0,
+        "func-style": ["error", "declaration", { "allowArrowFunctions": true }]
+    }
+}
