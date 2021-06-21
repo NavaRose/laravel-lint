@@ -194,7 +194,7 @@ lint() {
 fix () {
   echo "${BLUE}- Begin to fix JavaScript conventions:${RESET_COLOR}"
 
-  checking_js_result=$(npx eslint $JS_CONVENTION_CHECKING_DIRS)
+  checking_js_result=$(npx eslint -fix $JS_CONVENTION_CHECKING_DIRS)
   if [ "$checking_js_result" != '' ]; then
     js_log_path=$LOGS_FILE_PATH$JS_ERROR_LOG_FILE_NAME"_"$LOG_DATE$LOGS_FILE_EXTENSION
     echo "${RED}[✗] There are still some errors: Please check these errors in your \"$js_log_path\"${RESET_COLOR}\n"
@@ -204,7 +204,7 @@ fix () {
   fi
 
   echo "${BLUE}- Begin to fix PHP conventions:${RESET_COLOR}"
-  checking_php_result=$(php vendor/bin/phpcs --standard=$CHECKING_STANDARDS $PHP_CONVENTION_CHECKING_DIRS -n)
+  checking_php_result=$(php vendor/bin/phpcbf $PHP_CONVENTION_CHECKING_DIRS)
   if [ "$checking_php_result" != '' ]; then
     php_log_path=$LOGS_FILE_PATH$PHP_ERROR_LOG_FILE_NAME"_"$LOG_DATE$LOGS_FILE_EXTENSION
     echo "${RED}[✗] There are still some errors: Please checking these errors in your \"$php_log_path\"${RESET_COLOR}\n"
