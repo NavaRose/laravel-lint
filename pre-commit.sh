@@ -215,5 +215,9 @@ fix () {
   fi
 }
 
+clear_logs () {
+  rm -rf ./storage/logs/pre_commit_checking/*
+}
+
 "$@"
 exit 0
