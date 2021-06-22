@@ -55,11 +55,13 @@ checking_javascript () {
 
 lint() {
   BIN_DIR=./vendor/"$PACKAGE_NAME"/bin/
-  
+  PARAM3=$3
+  echo $PARAM3
   case $3 in
   php)
     sh "$BIN_DIR"check_php.sh "$PHP_CONVENTION_CHECKING_DIRS" $DEBUG_MODE
       [ $? == 1 ] && exit 1
+      exit 0
     ;;
   esac
 
