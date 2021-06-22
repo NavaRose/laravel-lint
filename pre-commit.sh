@@ -22,7 +22,7 @@ LOGS_FILE_EXTENSION='.log'
 
 LOG_DATE=$(date +"%Y-%m-%d_%H-%M-%S")
 
-PACKAGE_NAME='amv-hub/amv-lint/'
+PACKAGE_NAME='amv-hub/amv-lint'
 
 # Define text color
 RED='\033[0;31m'
@@ -124,9 +124,9 @@ checking_javascript () {
 
 lint() {
   echo "${BLUE}- Checking environment variable:${RESET_COLOR}"
-  sh ./vendor/"$PACKAGE_NAME"/bin/check_env/checking_env_lines
-  sh ./vendor/"$PACKAGE_NAME"/bin/check_env/checking_env_variable
-  sh ./vendor/"$PACKAGE_NAME"/bin/check_env/checking_using_of_env
+  sh ./vendor/"$PACKAGE_NAME"/bin/check_env.sh checking_env_lines
+  sh ./vendor/"$PACKAGE_NAME"/bin/check_env.sh checking_env_variable
+  sh ./vendor/"$PACKAGE_NAME"/bin/check_env.sh checking_using_of_env
   exit 1
   # Checking language translation files
   echo "${BLUE}- Checking consistency of language translation files:${RESET_COLOR}"
