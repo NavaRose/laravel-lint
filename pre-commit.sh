@@ -8,7 +8,11 @@ if [ ! -f ./.amv_lint.env ]; then
 fi
 
 # Variable define
-. .amv_lint.env
+. .amv_lint.
+
+if [ $2 == '-g' ]; then
+    DEBUG_MODE=true
+fi
 
 DIR=./vendor/$PACKAGE_NAME
 
