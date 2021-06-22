@@ -1,5 +1,5 @@
 {
-  "name": "laravel-lint",
+  "name": "amv-lint",
   "version": "1.0.0",
   "dependencies": {
     "eslint": "^7.29.0",

@@ -1,5 +1,5 @@
 {
-  "name": "nguyendotrung/laravel-lint",
+  "name": "amv-hub/amv-lint",
   "description": "This is a tool for checking a consistency and coding convention of Laravel project",
   "minimum-stability": "stable",
   "license": "proprietary",
