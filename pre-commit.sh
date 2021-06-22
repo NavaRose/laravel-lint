@@ -55,8 +55,8 @@ checking_javascript () {
 
 lint() {
   BIN_DIR=./vendor/"$PACKAGE_NAME"/bin/
-  echo $CHECK_TYPE
-  case $3 in
+
+  case $CHECK_TYPE in
   php)
     sh "$BIN_DIR"check_php.sh "$PHP_CONVENTION_CHECKING_DIRS" $DEBUG_MODE
     [ $? == 1 ] && exit 1
