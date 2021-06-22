@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Create logs dir if not exist
-if [ ! -d ./.amv_lint.env ]; then
+if [ ! -f ./.amv_lint.env ]; then
     echo "${RED}[✗] The initial of package isn't done yet. Please run:${RESET_COLOR}"
     echo "    ./vendor/amv-hub/amv-lint/init.sh\n"
     exit 1;
