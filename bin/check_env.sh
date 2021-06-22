@@ -47,6 +47,7 @@ checking_using_of_env () {
   fi
 }
 
+echo "${BLUE}- Checking environment variable:${RESET_COLOR}"
 checking_env_lines
 checking_env_variable
 checking_using_of_env

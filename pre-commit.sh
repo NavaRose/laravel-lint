@@ -37,22 +37,6 @@ if [ $IS_STAGED_CHECKING == true ]; then
     JS_CONVENTION_CHECKING_DIRS=$JS_STAGED_FILES
 fi
 
-checking_javascript () {
-  if [ "$JS_CONVENTION_CHECKING_DIRS"  == '' ]; then
-    echo "${ORANGE}[!] There are no files to check.${RESET_COLOR}\n"
-    return
-  fi
-  checking_js_result=$(npx eslint $JS_CONVENTION_CHECKING_DIRS)
-  if [ "$checking_js_result" != '' ]; then
-    js_log_path=$LOGS_FILE_PATH$JS_ERROR_LOG_FILE_NAME"_"$LOG_DATE$LOGS_FILE_EXTENSION
-    echo "${RED}[✗] There are some errors: Please check these errors in your \"$js_log_path\"${RESET_COLOR}\n"
-    echo "$checking_js_result" > "$js_log_path"
-    [ ! $DEBUG_MODE == 'true' ] && exit 1
-  else
-    echo "${GREEN}[✓] Passed !!!${RESET_COLOR}\n"
-  fi
-}
-
 lint() {
   BIN_DIR=./vendor/"$PACKAGE_NAME"/bin/
 
@@ -62,17 +46,27 @@ lint() {
     [ $? == 1 ] && exit 1
     exit 0
     ;;
+  js)
+    sh "$BIN_DIR"check_javascript.sh "$JS_CONVENTION_CHECKING_DIRS" $DEBUG_MODE
+    [ $? == 1 ] && exit 1
+    exit 0
+    ;;
+  env)
+    sh "$BIN_DIR"check_env.sh "$ENV_USING_CHECKING_DIRS" $DEBUG_MODE
+    [ $? == 1 ] && exit 1
+    exit 0
+    ;;
+  lang)
+    sh "$BIN_DIR"check_language.sh
+    [ $? == 1 ] && exit 1
+    exit 0
   esac
 
-  echo "${BLUE}- Checking environment variable:${RESET_COLOR}"
   sh "$BIN_DIR"check_env.sh "$ENV_USING_CHECKING_DIRS" $DEBUG_MODE
-
   [ $? == 1 ] && exit 1
 
   # Checking language translation files
-  echo "${BLUE}- Checking consistency of language translation files:${RESET_COLOR}"
   sh "$BIN_DIR"check_language.sh
-
   [ $? == 1 ] && exit 1
 
   # Create logs dir if not exist
@@ -81,12 +75,12 @@ lint() {
   fi
 
   # Checking for coding convention, coding styles of PHP
-  echo "\n${BLUE}- Checking for coding convention of PHP files:${RESET_COLOR}"
-  sh "$BIN_DIR"check_php.sh
+  sh "$BIN_DIR"check_php.sh "$PHP_CONVENTION_CHECKING_DIRS" $DEBUG_MODE
+  [ $? == 1 ] && exit 1
 
   # Checking for coding convention, coding styles of JavaScript
-  echo "${BLUE}- Checking for coding convention of JavaScript files:${RESET_COLOR}"
-  checking_javascript
+  sh "$BIN_DIR"check_javascript.sh "$JS_CONVENTION_CHECKING_DIRS" $DEBUG_MODE
+  [ $? == 1 ] && exit 1
 
   echo "${GREEN}=> Ok all checking passed. Congratulations !!${RESET_COLOR}"
   [ $DEBUG_MODE == 'true' ] && exit 1
@@ -118,7 +112,8 @@ fix () {
 
 hooks() {
   params1=$1
-
+  echo $params1
+  exit 1
   if [ $params1 == 'enable' ]; then
       cp ./vendor/nguyendotrung/laravel-lint/hooks/pre-commit .git/hooks/pre-commit
   fi

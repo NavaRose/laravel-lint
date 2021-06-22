@@ -17,5 +17,6 @@ checking_php () {
   fi
 }
 
+echo "\n${BLUE}- Checking for coding convention of PHP files:${RESET_COLOR}"
 checking_php
 exit 0

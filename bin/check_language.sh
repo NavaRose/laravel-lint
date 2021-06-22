@@ -41,5 +41,6 @@ checking_language () {
   fi
 }
 
+echo "${BLUE}- Checking consistency of language translation files:${RESET_COLOR}"
 checking_language
 exit 0
