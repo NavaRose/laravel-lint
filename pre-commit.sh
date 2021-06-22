@@ -37,22 +37,6 @@ if [ $IS_STAGED_CHECKING == true ]; then
     JS_CONVENTION_CHECKING_DIRS=$JS_STAGED_FILES
 fi
 
-checking_php () {
-  if [ "$PHP_CONVENTION_CHECKING_DIRS" == '' ]; then
-    echo "${ORANGE}[!] There are no files to check.${RESET_COLOR}\n"
-      return
-  fi
-  checking_php_result=$(php vendor/bin/phpcs --standard=$CHECKING_STANDARDS $PHP_CONVENTION_CHECKING_DIRS -n)
-  if [ "$checking_php_result" != '' ]; then
-    php_log_path=$LOGS_FILE_PATH$PHP_ERROR_LOG_FILE_NAME"_"$LOG_DATE$LOGS_FILE_EXTENSION
-    echo "${RED}[✗] There are some errors: Please checking these errors in your \"$php_log_path\"${RESET_COLOR}\n"
-    echo "$checking_php_result" > "$php_log_path"
-    [ ! $DEBUG_MODE == 'true' ] && exit 1
-  else
-    echo "${GREEN}[✓] Passed !!!${RESET_COLOR}\n"
-  fi
-}
-
 checking_javascript () {
   if [ "$JS_CONVENTION_CHECKING_DIRS"  == '' ]; then
     echo "${ORANGE}[!] There are no files to check.${RESET_COLOR}\n"
@@ -71,6 +55,13 @@ checking_javascript () {
 
 lint() {
   BIN_DIR=./vendor/"$PACKAGE_NAME"/bin/
+  
+  case $3 in
+  'php')
+    sh "$BIN_DIR"check_php.sh "$PHP_CONVENTION_CHECKING_DIRS" $DEBUG_MODE
+      [ $? == 1 ] && exit 1
+    ;;
+  esac
 
   echo "${BLUE}- Checking environment variable:${RESET_COLOR}"
   sh "$BIN_DIR"check_env.sh "$ENV_USING_CHECKING_DIRS" $DEBUG_MODE
@@ -90,10 +81,8 @@ lint() {
 
   # Checking for coding convention, coding styles of PHP
   echo "\n${BLUE}- Checking for coding convention of PHP files:${RESET_COLOR}"
-  checking_php
+  sh "$BIN_DIR"check_php.sh
 
-  # copy eslint to root dir if not exist
-  cp "$DIR"/.eslintrc.json ./.eslintrc.json
   # Checking for coding convention, coding styles of JavaScript
   echo "${BLUE}- Checking for coding convention of JavaScript files:${RESET_COLOR}"
   checking_javascript
