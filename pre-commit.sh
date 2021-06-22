@@ -80,6 +80,7 @@ lint() {
   fi
 
   # Checking for coding convention, coding styles of PHP
+  echo "$PHP_CONVENTION_CHECKING_DIRS"
   sh "$BIN_DIR"check_php.sh "$PHP_CONVENTION_CHECKING_DIRS" $DEBUG_MODE
   [ $? == 1 ] && exit 1
 
