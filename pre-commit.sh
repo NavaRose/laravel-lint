@@ -7,12 +7,13 @@ if [ ! -f ./.amv_lint.env ]; then
     exit 1;
 fi
 
+# Variable define
+. .amv_lint.env
+
 DIR=./vendor/$PACKAGE_NAME
 
 # Define text color
 . "$DIR"/bin/.color
-# Variable define
-. .amv_lint.env
 
 PHP_STAGED_FILES=$(git status -s | grep -E '^[^D].*\.php$'| awk '{print $2}')
 JS_STAGED_FILES=$(git status -s | grep -E '^[^D].*\.js$'| awk '{print $2}')
