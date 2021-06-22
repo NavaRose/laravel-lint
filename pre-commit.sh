@@ -14,7 +14,7 @@ PARAM3=$3
 if [ "$PARAM2" == '-g' ]; then
     DEBUG_MODE=true
 fi
-
+echo PHP_CONVENTION_CHECKING_DIRS aaa
 DIR=./vendor/$PACKAGE_NAME
 
 # Define text color
@@ -37,7 +37,7 @@ if [ $IS_STAGED_CHECKING == true ]; then
     PHP_CONVENTION_CHECKING_DIRS=$PHP_STAGED_FILES
     JS_CONVENTION_CHECKING_DIRS=$JS_STAGED_FILES
 fi
-
+echo PHP_CONVENTION_CHECKING_DIRS bbbb
 lint() {
   BIN_DIR=./vendor/"$PACKAGE_NAME"/bin/
   CHECK_TYPE=$PARAM3
@@ -80,7 +80,7 @@ lint() {
   fi
 
   # Checking for coding convention, coding styles of PHP
-  echo "$PHP_CONVENTION_CHECKING_DIRS"
+  echo "$PHP_CONVENTION_CHECKING_DIRS" cccc
   sh "$BIN_DIR"check_php.sh "$PHP_CONVENTION_CHECKING_DIRS" $DEBUG_MODE
   [ $? == 1 ] && exit 1
 
