@@ -9,8 +9,9 @@ fi
 
 # Variable define
 . .amv_lint.env
-CHECK_TYPE=$3
-if [ $2 == '-g' ]; then
+PARAM2=$2
+PARAM3=$3
+if [ "$PARAM2" == '-g' ]; then
     DEBUG_MODE=true
 fi
 
@@ -39,6 +40,10 @@ fi
 
 lint() {
   BIN_DIR=./vendor/"$PACKAGE_NAME"/bin/
+  CHECK_TYPE=$PARAM3
+  if [ "$PARAM2" != '-g' ]; then
+      CHECK_TYPE=$PARAM2
+  fi
 
   case $CHECK_TYPE in
   php)
