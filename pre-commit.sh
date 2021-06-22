@@ -57,7 +57,7 @@ lint() {
   BIN_DIR=./vendor/"$PACKAGE_NAME"/bin/
   
   case $3 in
-  'php')
+  php)
     sh "$BIN_DIR"check_php.sh "$PHP_CONVENTION_CHECKING_DIRS" $DEBUG_MODE
       [ $? == 1 ] && exit 1
     ;;
