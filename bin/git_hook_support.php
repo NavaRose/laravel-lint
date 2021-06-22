@@ -1,7 +1,7 @@
 <?php
-require __DIR__ . '/../../../vendor/autoload.php';
-
-const LANGUAGE_DIR = __DIR__ . '/../../../resources/lang/';
+//require __DIR__ . '/../../../../vendor/autoload.php';
+require './vendor/autoload.php';
+const LANGUAGE_DIR = './resources/lang/';
 
 $dir = array_diff(scandir(LANGUAGE_DIR . 'en/'), ['..', '.']);
 foreach ($dir as $file) {
@@ -19,7 +19,7 @@ foreach ($dir as $file) {
 function compareLanguageFile($en, $ja, $fileName)
 {
     if (count($en) !== count($ja)) {
-        echo "Language keys of $fileName file between two language doesn't have consistence.";
+        echo "Language keys of $fileName file between two language doesn't have consistence.\n";
         return false;
     }
 

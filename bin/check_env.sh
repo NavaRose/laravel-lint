@@ -1,7 +1,12 @@
+DIR=$(dirname "${BASH_SOURCE[0]}")
+. "$DIR"/.color
+ENV_USING_CHECKING_DIRS=$1
+DEBUG_MODE=$2
+
 checking_env_lines () {
-  count_file_line .env
+  sh "$DIR"/utilities.sh count_file_line .env
   env_file_line=$?
-  count_file_line .env.example
+  sh "$DIR"/utilities.sh count_file_line .env.example
   env_example_file_line=$?
 
   if [ "$env_file_line"  != "$env_example_file_line" ]; then
@@ -42,10 +47,7 @@ checking_using_of_env () {
   fi
 }
 
-# Check system consistency and coding convention before commit
-count_file_line () {
-    arg1=$1
-    return "$(wc -l "$arg1" | awk '{print $1}')"
-}
-
-"$@"
+checking_env_lines
+checking_env_variable
+checking_using_of_env
+exit 0

@@ -1,35 +1,22 @@
 #!/bin/sh
 
+DIR=$(dirname "${BASH_SOURCE[0]}")
+
+# Define text color
+. "$DIR"/bin/.color
+
+# Create logs dir if not exist
+if [ ! -d ./.amv_lint.env ]; then
+    echo "${RED}[✗] The initial of package isn't done yet. Please run:${RESET_COLOR}"
+    echo "    ./vendor/amv-hub/amv-lint/init.sh\n"
+    exit 1;
+fi
 # Variable define
-DEBUG_MODE=false # Turn it true for debug this file only
-CHECKING_STANDARDS='psr2' # List of PHP convention standards for checking, separate by comma ","
-IS_STAGED_CHECKING=false # set false if you want to check global
+. "$DIR"/.amv_lint.env
 
 PHP_STAGED_FILES=$(git status -s | grep -E '^[^D].*\.php$'| awk '{print $2}')
 JS_STAGED_FILES=$(git status -s | grep -E '^[^D].*\.js$'| awk '{print $2}')
 STAGED_FILES=$(git status -s | grep -E '^[^D]'| awk '{print $2}')
-
-# Checking folder of PHP, JavaScript and ENV using if you set false to IS_STAGED_CHECKING variable
-ENV_USING_CHECKING_DIRS='./app ./database'
-PHP_CONVENTION_CHECKING_DIRS='./app'
-JS_CONVENTION_CHECKING_DIRS='./resources'
-
-LOGS_FILE_PATH='./storage/logs/pre_commit_checking/'
-PHP_ERROR_LOG_FILE_NAME='php_commit_error'
-JS_ERROR_LOG_FILE_NAME='js_commit_error'
-
-LOGS_FILE_EXTENSION='.log'
-
-LOG_DATE=$(date +"%Y-%m-%d_%H-%M-%S")
-
-PACKAGE_NAME='amv-hub/amv-lint'
-
-# Define text color
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-BLUE='\033[0;34m'
-ORANGE='\033[0;33m'
-RESET_COLOR='\033[0m'
 
 if [ $DEBUG_MODE == true ]; then
   clear
@@ -44,46 +31,6 @@ if [ $IS_STAGED_CHECKING == true ]; then
     PHP_CONVENTION_CHECKING_DIRS=$PHP_STAGED_FILES
     JS_CONVENTION_CHECKING_DIRS=$JS_STAGED_FILES
 fi
-
-
-checking_language () {
-  error_flag=false
-  dir=`ls ./resources/lang/en`
-
-  # Scanning in En language dir...
-  for entry in $dir
-  do
-    EN_FILE=./resources/lang/en/$entry
-    JP_FILE=./resources/lang/ja/$entry
-
-    # Check if file exist in Ja language dir
-    if [ -f "$JP_FILE" ]; then
-      # If exist, then checking line number between two language are same
-      count_file_line "$JP_FILE"
-      jp_lang_file_line=$?
-      count_file_line "$EN_FILE"
-      en_lang_file_line=$?
-      if [ $jp_lang_file_line != $en_lang_file_line ]; then
-        echo "${RED}[✗] $entry between two languages not same line${RESET_COLOR}"
-        error_flag=true
-      fi
-      echo "${GREEN}[✓] $entry${RESET_COLOR} file are matched."
-    else
-      echo "${RED}[✗] $entry file is not exist in JA language${RESET_COLOR}"
-      error_flag=true
-    fi
-  done
-
-  checking_language_result=$(php -f ./vendor/nguyendotrung/laravel-lint/git_hook_support.php)
-  if [ "$checking_language_result" != '' ]; then
-      echo "\n${RED}[✗] $checking_language_result${RESET_COLOR}"
-      error_flag=true
-  fi
-
-  if [ $error_flag != false ]; then
-      [ ! $DEBUG_MODE == 'true' ] && exit 1
-  fi
-}
 
 checking_php () {
   if [ "$PHP_CONVENTION_CHECKING_DIRS" == '' ]; then
@@ -118,14 +65,18 @@ checking_javascript () {
 }
 
 lint() {
+  BIN_DIR=./vendor/"$PACKAGE_NAME"/bin/
+
   echo "${BLUE}- Checking environment variable:${RESET_COLOR}"
-  sh ./vendor/"$PACKAGE_NAME"/bin/check_env.sh checking_env_lines
-  sh ./vendor/"$PACKAGE_NAME"/bin/check_env.sh checking_env_variable
-  sh ./vendor/"$PACKAGE_NAME"/bin/check_env.sh checking_using_of_env
-  exit 1
+  sh "$BIN_DIR"check_env.sh "$ENV_USING_CHECKING_DIRS" $DEBUG_MODE
+
+  [ $? == 1 ] && exit 1
+
   # Checking language translation files
   echo "${BLUE}- Checking consistency of language translation files:${RESET_COLOR}"
-  checking_language
+  sh "$BIN_DIR"check_language.sh
+
+  [ $? == 1 ] && exit 1
 
   # Create logs dir if not exist
   if [ ! -d $LOGS_FILE_PATH ]; then
@@ -136,6 +87,8 @@ lint() {
   echo "\n${BLUE}- Checking for coding convention of PHP files:${RESET_COLOR}"
   checking_php
 
+  # copy eslint to root dir if not exist
+  cp "$DIR"/.eslintrc.json ./.eslintrc.json
   # Checking for coding convention, coding styles of JavaScript
   echo "${BLUE}- Checking for coding convention of JavaScript files:${RESET_COLOR}"
   checking_javascript
