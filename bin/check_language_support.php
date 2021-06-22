@@ -15,11 +15,11 @@ foreach ($dir as $file) {
         $compare_language_data = require LANGUAGE_DIR . "$lang_code/$file";
         if (!compareLanguageFile(
             [
-                'language_code' => '',
+                'language_code' => $main_language,
                 'language_data' => $main_language_data
             ],
             [
-                'language_code' => '',
+                'language_code' => $lang_code,
                 'language_data' => $compare_language_data
             ], $file
         )) {
