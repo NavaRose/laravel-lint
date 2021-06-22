@@ -41,4 +41,11 @@ checking_using_of_env () {
     echo "${GREEN}[✓] Checking completed, no files using environment variables in wrong way.${RESET_COLOR}\n"
   fi
 }
+
+# Check system consistency and coding convention before commit
+count_file_line () {
+    arg1=$1
+    return "$(wc -l "$arg1" | awk '{print $1}')"
+}
+
 "$@"

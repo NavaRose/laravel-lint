@@ -45,11 +45,6 @@ if [ $IS_STAGED_CHECKING == true ]; then
     JS_CONVENTION_CHECKING_DIRS=$JS_STAGED_FILES
 fi
 
-# Check system consistency and coding convention before commit
-count_file_line () {
-    arg1=$1
-    return "$(wc -l "$arg1" | awk '{print $1}')"
-}
 
 checking_language () {
   error_flag=false
