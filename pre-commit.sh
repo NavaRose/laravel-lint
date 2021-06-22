@@ -28,7 +28,7 @@ if [ $DEBUG_MODE == true ]; then
   rm -rf ./storage/logs/pre_commit_checking/*
 fi
 
-echo "=============================== Git Hook Pre-commit ===================================="
+echo "=============================== Ambition Vietnam PHP Linter ===================================="
 
 # Check current executing file and if check staged files
 if [ $IS_STAGED_CHECKING == true ]; then
@@ -115,7 +115,7 @@ hooks() {
   echo $params1
   exit 1
   if [ $params1 == 'enable' ]; then
-      cp ./vendor/nguyendotrung/laravel-lint/hooks/pre-commit .git/hooks/pre-commit
+      cp "$DIR"/hooks/* .git/hooks/pre-commit
   fi
 }
 
