@@ -1,18 +1,18 @@
 #!/bin/sh
 
-DIR=$(dirname "${BASH_SOURCE[0]}")
-
-# Define text color
-. "$DIR"/bin/.color
-
 # Create logs dir if not exist
 if [ ! -d ./.amv_lint.env ]; then
     echo "${RED}[✗] The initial of package isn't done yet. Please run:${RESET_COLOR}"
     echo "    ./vendor/amv-hub/amv-lint/init.sh\n"
     exit 1;
 fi
+
+DIR=./vendor/$PACKAGE_NAME
+
+# Define text color
+. "$DIR"/bin/.color
 # Variable define
-. "$DIR"/.amv_lint.env
+. .amv_lint.env
 
 PHP_STAGED_FILES=$(git status -s | grep -E '^[^D].*\.php$'| awk '{print $2}')
 JS_STAGED_FILES=$(git status -s | grep -E '^[^D].*\.js$'| awk '{print $2}')
