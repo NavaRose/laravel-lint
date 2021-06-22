@@ -2,30 +2,44 @@
 //require __DIR__ . '/../../../../vendor/autoload.php';
 require './vendor/autoload.php';
 const LANGUAGE_DIR = './resources/lang/';
-echo $argv[1] . "\n";
-$dir = array_diff(scandir(LANGUAGE_DIR . 'en/'), ['..', '.']);
+$main_language = $argv[1];
+$dir = array_diff(scandir(LANGUAGE_DIR . "$main_language/"), ['..', '.']);
 foreach ($dir as $file) {
-    $en_data = require LANGUAGE_DIR . "en/$file";
-    if (!file_exists(LANGUAGE_DIR . "ja/$file")) {
-        echo "Missing $file of japanese language.";
-        exit();
-    }
-    $jp_data = require LANGUAGE_DIR . "ja/$file";
-    if (!compareLanguageFile($en_data, $jp_data, $file)) {
-        exit();
+    $main_language_data = require LANGUAGE_DIR . "$main_language/$file";
+
+    foreach (array_diff(scandir(LANGUAGE_DIR . "$main_language/"), ['..', '.']) as $lang_code) {
+        if (!file_exists(LANGUAGE_DIR . "$lang_code/$file")) {
+            echo "Missing $file of $lang_code language.";
+            exit();
+        }
+        $compare_language_data = require LANGUAGE_DIR . "$lang_code/$file";
+        if (!compareLanguageFile(
+            [
+                'language_code' => '',
+                'language_data' => $main_language_data
+            ],
+            [
+                'language_code' => '',
+                'language_data' => $compare_language_data
+            ], $file
+        )) {
+            exit();
+        }
     }
 }
 
-function compareLanguageFile($en, $ja, $fileName)
+function compareLanguageFile($main_language_data, $compare_language_data, $fileName)
 {
-    if (count($en) !== count($ja)) {
-        echo "Language keys of $fileName file between two language doesn't have consistence.\n";
+    $main_code = $main_language_data['language_code'];
+    $compare_code = $compare_language_data['language_code'];
+    if (count($main_language_data['language_data']) !== count($compare_language_data['language_data'])) {
+        echo "Language keys of $fileName file between $main_code and $compare_code languages doesn't have consistence.\n";
         return false;
     }
 
-    foreach ($en as $key => $value) {
-        if (!isset($ja[$key])) {
-            echo "Missing $key language key in japanese language.";
+    foreach ($main_language_data['language_data'] as $key => $value) {
+        if (!isset($compare_language_data['language_data'][$key])) {
+            echo "Missing $key language key in $compare_code language.";
             return false;
         }
     }
