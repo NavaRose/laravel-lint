@@ -39,7 +39,7 @@ checking_language () {
     fi
   done
 
-  checking_language_result=$(php -f "$DIR"/git_hook_support.php)
+  checking_language_result=$(php -q "$DIR"/check_language_support.php $main_lang)
   if [ "$checking_language_result" != '' ]; then
       echo "\n${RED}[✗] $checking_language_result${RESET_COLOR}"
       error_flag=true

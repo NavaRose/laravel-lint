@@ -2,7 +2,7 @@
 //require __DIR__ . '/../../../../vendor/autoload.php';
 require './vendor/autoload.php';
 const LANGUAGE_DIR = './resources/lang/';
-
+echo $argv[1] . "\n";
 $dir = array_diff(scandir(LANGUAGE_DIR . 'en/'), ['..', '.']);
 foreach ($dir as $file) {
     $en_data = require LANGUAGE_DIR . "en/$file";
