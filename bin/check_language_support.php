@@ -7,7 +7,7 @@ $dir = array_diff(scandir(LANGUAGE_DIR . "$main_language/"), ['..', '.']);
 foreach ($dir as $file) {
     $main_language_data = require LANGUAGE_DIR . "$main_language/$file";
 
-    foreach (array_diff(scandir(LANGUAGE_DIR . "$main_language/"), ['..', '.']) as $lang_code) {
+    foreach (array_diff(scandir(LANGUAGE_DIR), ['..', '.']) as $lang_code) {
         if (!file_exists(LANGUAGE_DIR . "$lang_code/$file")) {
             echo "Missing $file of $lang_code language.";
             exit();
