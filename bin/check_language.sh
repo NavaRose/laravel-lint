@@ -16,9 +16,11 @@ checking_language () {
 
     for lang in $language_list
     do
+      item_checking_error_flag=false
       file_to_compare=$language_path$lang/$entry
       if [ ! -f "$language_path$lang/$entry" ]; then
         echo "${RED}[✗] $entry file is not exist in $lang language${RESET_COLOR}"
+        item_checking_error_flag=true
         error_flag=true
       fi
 
@@ -27,11 +29,14 @@ checking_language () {
 
       if [ $compare_file_line != $main_lang_file_line ]; then
         echo "${RED}[✗] $entry between $lang and $main_lang languages not same line${RESET_COLOR}"
+        item_checking_error_flag=true
         error_flag=true
-      else
-        echo "${GREEN}[✓] $entry${RESET_COLOR} file are matched."
       fi
     done
+
+    if [ $item_checking_error_flag == false ]; then
+        echo "${GREEN}[✓] $entry${RESET_COLOR} files are matched."
+    fi
   done
 
   checking_language_result=$(php -f "$DIR"/git_hook_support.php)
