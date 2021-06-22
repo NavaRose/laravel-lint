@@ -1,6 +1,9 @@
 DIR=$(dirname "${BASH_SOURCE[0]}")
 . "$DIR"/.color
 checking_language () {
+  language_list=`ls ./resources/lang`
+  echo language_list
+  exit 1
   error_flag=false
   dir=`ls ./resources/lang/en`
 
