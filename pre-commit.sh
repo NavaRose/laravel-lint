@@ -9,7 +9,7 @@ fi
 
 # Variable define
 . .amv_lint.env
-
+CHECK_TYPE=$3
 if [ $2 == '-g' ]; then
     DEBUG_MODE=true
 fi
@@ -55,13 +55,12 @@ checking_javascript () {
 
 lint() {
   BIN_DIR=./vendor/"$PACKAGE_NAME"/bin/
-  PARAM3=$3
-  echo $PARAM3
+  echo $CHECK_TYPE
   case $3 in
   php)
     sh "$BIN_DIR"check_php.sh "$PHP_CONVENTION_CHECKING_DIRS" $DEBUG_MODE
-      [ $? == 1 ] && exit 1
-      exit 0
+    [ $? == 1 ] && exit 1
+    exit 0
     ;;
   esac
 
