@@ -8,7 +8,7 @@ if [ ! -f ./.amv_lint.env ]; then
 fi
 
 # Variable define
-. .amv_lint.
+. .amv_lint.env
 
 if [ $2 == '-g' ]; then
     DEBUG_MODE=true
