@@ -1,3 +1,4 @@
+. .amv_lint.env
 PHP_CONVENTION_CHECKING_DIRS=$1
 DEBUG_MODE=$2
 checking_php () {
