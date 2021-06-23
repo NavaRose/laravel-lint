@@ -15,6 +15,7 @@ PARAM4=$4
 if [ "$PARAM2" == '-g' ]; then
     DEBUG_MODE=true
 fi
+
 DIR=./vendor/$PACKAGE_NAME
 
 # Define text color
@@ -32,16 +33,17 @@ fi
 echo "=============================== Ambition Vietnam PHP Linter ===================================="
 
 # Check current executing file and if check staged files
-if [ $IS_STAGED_CHECKING == true ]; then
+if [ $IS_STAGED_CHECKING == true ] || [ "$PARAM2" == '-c' ]; then
     ENV_USING_CHECKING_DIRS=$STAGED_FILES
     PHP_CONVENTION_CHECKING_DIRS=$PHP_STAGED_FILES
     JS_CONVENTION_CHECKING_DIRS=$JS_STAGED_FILES
 fi
+
 lint() {
   BIN_DIR=./vendor/"$PACKAGE_NAME"/bin/
   CHECK_TYPE=$PARAM3
   IS_FIX=$PARAM4
-  if [ "$PARAM2" != '-g' ]; then
+  if [ "$PARAM2" != '-g' ] && [ "$PARAM2" != '-c' ]; then
       CHECK_TYPE=$PARAM2
       IS_FIX=$PARAM3
   fi
@@ -132,11 +134,6 @@ hooks() {
 
 clear_logs () {
   rm -rf ./storage/logs/pre_commit_checking/*
-}
-
-fname() {
-    me=`basename "$0"`
-    echo $me
 }
 
 "$@"
