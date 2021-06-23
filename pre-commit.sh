@@ -14,6 +14,8 @@ PARAM3=$3
 PARAM4=$4
 if [ "$PARAM2" == '-g' ]; then
     DEBUG_MODE=true
+elif [ "$PARAM2" == '-c' ]; then
+    DEBUG_MODE=false
 fi
 
 DIR=./vendor/$PACKAGE_NAME
@@ -34,6 +36,7 @@ echo "=============================== Ambition Vietnam PHP Linter ==============
 
 # Check current executing file and if check staged files
 if [ $IS_STAGED_CHECKING == true ] || [ "$PARAM2" == '-c' ]; then
+    echo "${ORANGE}- We will checking for staged files.${RESET_COLOR}"
     ENV_USING_CHECKING_DIRS=$STAGED_FILES
     PHP_CONVENTION_CHECKING_DIRS=$PHP_STAGED_FILES
     JS_CONVENTION_CHECKING_DIRS=$JS_STAGED_FILES
