@@ -11,6 +11,7 @@ fi
 . .amv_lint.env
 PARAM2=$2
 PARAM3=$3
+PARAM4=$4
 if [ "$PARAM2" == '-g' ]; then
     DEBUG_MODE=true
 fi
@@ -39,18 +40,25 @@ fi
 lint() {
   BIN_DIR=./vendor/"$PACKAGE_NAME"/bin/
   CHECK_TYPE=$PARAM3
+  IS_FIX=$PARAM4
   if [ "$PARAM2" != '-g' ]; then
       CHECK_TYPE=$PARAM2
+      IS_FIX=$PARAM3
+  fi
+
+  fix_syntax=
+  if [ "$IS_FIX" == '--fix' ]; then
+      fix_syntax='--fix'
   fi
 
   case $CHECK_TYPE in
   php)
-    sh "$BIN_DIR"check_php.sh "$PHP_CONVENTION_CHECKING_DIRS" $DEBUG_MODE
+    sh "$BIN_DIR"check_php.sh "$PHP_CONVENTION_CHECKING_DIRS" $DEBUG_MODE "$fix_syntax"
     [ $? == 1 ] && exit 1
     exit 0
     ;;
   js)
-    sh "$BIN_DIR"check_javascript.sh "$JS_CONVENTION_CHECKING_DIRS" $DEBUG_MODE
+    sh "$BIN_DIR"check_javascript.sh "$JS_CONVENTION_CHECKING_DIRS" $DEBUG_MODE "$fix_syntax"
     [ $? == 1 ] && exit 1
     exit 0
     ;;
@@ -124,6 +132,11 @@ hooks() {
 
 clear_logs () {
   rm -rf ./storage/logs/pre_commit_checking/*
+}
+
+fname() {
+    me=`basename "$0"`
+    echo $me
 }
 
 "$@"
