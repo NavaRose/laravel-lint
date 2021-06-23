@@ -1,12 +1,12 @@
 {
   "name": "amv-hub/amv-lint",
-  "description": "This is a tool for checking a consistency and coding convention of Laravel project",
+  "description": "This is a tool for checking a consistency and coding convention of Laravel project. Please contact me if you have any problem when using it.",
   "minimum-stability": "stable",
   "license": "proprietary",
   "authors": [
     {
-      "name": "trungnd",
-      "email": "email@example.com"
+      "name": "Nguyen Do Trung",
+      "email": "trungnguyen-do@am-bition.vn"
     }
   ],
   "require": {
